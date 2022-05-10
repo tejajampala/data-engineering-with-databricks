@@ -164,6 +164,16 @@ display(example_df)
 
 # MAGIC %md
 # MAGIC 
+# MAGIC # Databricks
+# MAGIC 
+# MAGIC ### Next Steps
+# MAGIC * Go through the training
+# MAGIC * Complete Certification
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC 
 # MAGIC 
 # MAGIC 
 # MAGIC ## Run a SQL cell
