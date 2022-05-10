@@ -237,6 +237,8 @@ WHEN MATCHED AND u.type = "delete"
   THEN DELETE
 WHEN NOT MATCHED AND u.type = "insert"
   THEN INSERT *
+WHEN NOT MATCHED AND u.type = "update"
+  THEN INSERT *  
 
 -- COMMAND ----------
 
