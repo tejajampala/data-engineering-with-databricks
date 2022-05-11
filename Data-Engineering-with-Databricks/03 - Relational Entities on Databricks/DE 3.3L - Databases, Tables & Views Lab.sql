@@ -78,8 +78,7 @@ FROM parquet.`${da.paths.working_dir}/weather`
 -- COMMAND ----------
 
 -- TODO
-
-<FILL-IN> ${da.db_name}
+create database if not exists ${da.db_name}
 
 -- COMMAND ----------
 
@@ -105,7 +104,7 @@ FROM parquet.`${da.paths.working_dir}/weather`
 
 -- TODO
 
-<FILL-IN> ${da.db_name}
+use ${da.db_name}
 
 -- COMMAND ----------
 
@@ -130,7 +129,7 @@ FROM parquet.`${da.paths.working_dir}/weather`
 
 -- TODO
 
-<FILL-IN>
+CREATE TABLE weather_managed AS
 SELECT * 
 FROM parquet.`${da.paths.working_dir}/weather`
 
@@ -159,7 +158,7 @@ FROM parquet.`${da.paths.working_dir}/weather`
 
 -- TODO
 
-<FILL-IN>
+CREATE TABLE weather_external
 LOCATION "${da.paths.working_dir}/lab/external"
 AS SELECT * 
 FROM parquet.`${da.paths.working_dir}/weather`
@@ -187,6 +186,10 @@ FROM parquet.`${da.paths.working_dir}/weather`
 -- COMMAND ----------
 
 DESCRIBE EXTENDED weather_managed
+
+-- COMMAND ----------
+
+DESCRIBE DETAIL weather_external
 
 -- COMMAND ----------
 
@@ -249,8 +252,7 @@ DESCRIBE EXTENDED weather_external
 -- COMMAND ----------
 
 -- TODO
-
-<FILL_IN> ${da.db_name}
+DROP DATABASE ${da.db_name} CASCADE;
 
 -- COMMAND ----------
 
@@ -275,8 +277,8 @@ DESCRIBE EXTENDED weather_external
 -- COMMAND ----------
 
 -- MAGIC %python
--- MAGIC # files = dbutils.fs.ls(managedTablePath)
--- MAGIC # display(files)
+-- MAGIC files = dbutils.fs.ls(managedTablePath)
+-- MAGIC display(files)
 
 -- COMMAND ----------
 
@@ -289,6 +291,11 @@ DESCRIBE EXTENDED weather_external
 -- MAGIC %python
 -- MAGIC files = dbutils.fs.ls(DA.paths.working_dir)
 -- MAGIC display(files)
+
+-- COMMAND ----------
+
+-- MAGIC %python
+-- MAGIC print(DA.paths.working_dir)
 
 -- COMMAND ----------
 
@@ -322,9 +329,9 @@ USE ${da.db_name};
 
 -- COMMAND ----------
 
--- TODO
-
-<FILL_IN>
+CREATE TABLE weather_managed AS
+SELECT * 
+FROM parquet.`${da.paths.working_dir}/weather`
 
 -- COMMAND ----------
 
@@ -366,7 +373,7 @@ USE ${da.db_name};
 
 -- TODO
 
-<FILL-IN>
+create or replace view celsius
 AS (SELECT *
   FROM weather_managed
   WHERE UNIT = "C")
@@ -393,9 +400,7 @@ AS (SELECT *
 -- COMMAND ----------
 
 -- TODO
-
-<FILL-IN>
-AS (SELECT *
+CREATE or REPLACE TEMPORARY VIEW celsius_temp AS (SELECT *
   FROM weather_managed
   WHERE UNIT = "C")
 
@@ -420,12 +425,12 @@ AS (SELECT *
 
 -- COMMAND ----------
 
--- TODO
+set spark.sql.ansi.enabled=false
 
-<FILL-IN>
-AS (SELECT *
-  FROM weather_managed
-  WHERE UNIT = "C")
+-- COMMAND ----------
+
+-- TODO
+CREATE or Replace global temporary VIEW celsius_global AS (SELECT * FROM weather_managed WHERE UNIT = "C")
 
 -- COMMAND ----------
 
